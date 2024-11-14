@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Slider from "./Components/Slider";
+import GlobalApi from "./utils/GlobalApi";
 
-export default function Home() {
+export default async function Home() {
+  const sliderList = await GlobalApi.getSliders();
   return (
     <div>
-      <h1>Home</h1>
-      <Button>Send</Button>
+      <Slider sliderList={sliderList} />
     </div>
   );
 }
