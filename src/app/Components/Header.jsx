@@ -1,7 +1,8 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { LayoutGrid, Search, ShoppingBag } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,13 +14,20 @@ import {
 import GlobalApi from "../utils/GlobalApi";
 
 const Header = () => {
+  const [categoryList, setCategoryList] = useState([]);
 
-  const getCategoryList = () =>{
-    GlobalApi.getCategory().then(res => {
-      console.log(res);
-      
-    })
-  }
+  useEffect(() => {
+    getCategoryList();
+  }, []);
+
+  const getCategoryList = () => {
+    GlobalApi.getCategory().then((res) => {
+      console.log(res.data.data);
+      setCategoryList(res.data.data);
+      console.log(res.data.data[0].icon);
+      console.log(res.data.data[0].icon[0].url);
+    });
+  };
 
   return (
     <div className="p-5 shadow-sm flex justify-between">
@@ -36,10 +44,20 @@ const Header = () => {
           <DropdownMenuContent>
             <DropdownMenuLabel>Browse Category</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuItem>Team</DropdownMenuItem>
-            <DropdownMenuItem>Subscription</DropdownMenuItem>
+            {categoryList.map((category, index) => (
+              <DropdownMenuItem key={index} className='flex items-center gap-3 cursor-pointer'>
+                <Image
+                  src={
+                    process.env.NEXT_PUBLIC_BACKEND_BASE_URL +
+                    category.icon[0]?.url
+                  }
+                  width={40}
+                  height={40}
+                  alt="category"
+                />
+                <h2 className="text-lg">{category?.name}</h2>
+              </DropdownMenuItem>
+            ))}
           </DropdownMenuContent>
         </DropdownMenu>
 
