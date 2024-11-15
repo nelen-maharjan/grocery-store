@@ -29,8 +29,8 @@ const Slider = ({ sliderList }) => {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className='ml-2' />
+        <CarouselNext className='mr-2' />
       </Carousel>
     </div>
   );

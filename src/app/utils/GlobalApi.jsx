@@ -10,7 +10,13 @@ const getSliders = () => axiosClient.get('/sliders?populate=*').then(res =>{
     return res.data.data
 })
 
+const getCategoryList = () => axiosClient.get('/categories?populate=*').then(res =>{
+    return res.data.data
+})
+
+
 export default{
     getCategory,
-    getSliders
+    getSliders,
+    getCategoryList
 }
